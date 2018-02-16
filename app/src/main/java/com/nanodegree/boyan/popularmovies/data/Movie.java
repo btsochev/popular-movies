@@ -154,7 +154,7 @@ public class Movie implements IJsonDeserialize {
             adult = jsonObject.optBoolean("adult");
             overview = jsonObject.optString("overview");
             releaseDate = jsonObject.optString("release_date");
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

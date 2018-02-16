@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonHelpers {
-    public static List<Integer> getIntegerList(JSONObject jsonObject, String name) throws JSONException {
+    public static List<Integer> getIntegerList(JSONObject jsonObject, String name) {
         if (!jsonObject.has(name) || jsonObject.isNull(name))
             return null;
 

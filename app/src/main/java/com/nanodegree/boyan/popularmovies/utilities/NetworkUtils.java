@@ -40,7 +40,7 @@ public final class NetworkUtils {
 
 
     //TODO: remove before commit and read it from strings
-    final static String AUTH_PARAM = "api_key";
+    private final static String AUTH_PARAM = "api_key";
 
     public static URL buildUrl(String appendPath, String apiKey) {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
@@ -58,7 +58,7 @@ public final class NetworkUtils {
         return url;
     }
 
-    public static URL buildPosterUrl(String imagePath) {
+    public static URL buildImageUrl(String imagePath) {
         Uri builtUri = Uri.parse(BASE_IMAGE_URL).buildUpon()
                 .appendEncodedPath(imagePath)
                 .build();
@@ -73,7 +73,7 @@ public final class NetworkUtils {
         return url;
     }
 
-    public static URL buildMovieDetailsrUrl(int movieId, String apiKey) {
+    public static URL buildMovieDetailsUrl(int movieId, String apiKey) {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendEncodedPath(MOVIE_DETAILS)
                 .appendEncodedPath(String.valueOf(movieId))
@@ -103,7 +103,7 @@ public final class NetworkUtils {
     }
 
     public static MovieDetails getMovieDetails(int movieId, String apiKey) throws Exception {
-        URL movieDetails = buildMovieDetailsrUrl(movieId, apiKey);
+        URL movieDetails = buildMovieDetailsUrl(movieId, apiKey);
         String stringResponse = getResponseFromHttpUrl(movieDetails);
         return parseMovieDetails(stringResponse);
     }

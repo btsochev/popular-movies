@@ -1,6 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/poster_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/backdrop_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:textSize="@dimen/movie_details_title_text_size"
+                tools:text="Title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:text="@string/overview"
+                android:textSize="@dimen/movie_details_label_text_size" />
+
+            <TextView
+                android:id="@+id/overview_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:layout_marginRight="@dimen/movie_details_right_margin"
+                tools:text="some overview text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:text="@string/user_rating"
+                android:textSize="@dimen/movie_details_label_text_size" />
+
+            <TextView
+                android:id="@+id/user_rating_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:layout_marginRight="@dimen/movie_details_right_margin"
+                tools:text="9.7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:text="@string/release_date"
+                android:textSize="@dimen/movie_details_label_text_size" />
+
+            <TextView
+                android:id="@+id/release_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                android:layout_marginLeft="@dimen/movie_details_left_margin"
+                android:layout_marginRight="@dimen/movie_details_right_margin"
+                tools:text="2016-10-12" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/tv_error_message_display"
@@ -13,8 +111,8 @@
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
-        android:layout_height="42dp"
         android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_gravity="center"
         android:visibility="invisible" />
 

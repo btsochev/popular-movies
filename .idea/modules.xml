@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\WORK\udacity\nanodegree\popular-movies\app\app.iml" filepath="C:\WORK\udacity\nanodegree\popular-movies\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/popular-movies.iml" filepath="$PROJECT_DIR$/popular-movies.iml" />
+      <module fileurl="file://C:\WORK\udacity\nanodegree\popular-movies\popular-movies.iml" filepath="C:\WORK\udacity\nanodegree\popular-movies\popular-movies.iml" />
     </modules>
   </component>
 </project>

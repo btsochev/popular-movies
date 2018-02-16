@@ -8,6 +8,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.nanodegree.boyan.popularmovies.data.MovieResponse;
 import com.nanodegree.boyan.popularmovies.data.MoviesSortType;
 import com.nanodegree.boyan.popularmovies.utilities.NetworkUtils;
 import com.nanodegree.boyan.popularmovies.utilities.PreferencesHelper;
+import com.nanodegree.boyan.popularmovies.utilities.Utils;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<MovieResponse>, MoviesAdapter.MoviesAdapterOnClickHandler {
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
 
-        int numberOfColumns = 3;
+        int numberOfColumns = numberOfColumns();
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -67,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
+
+        if (itemId == R.id.action_refresh){
+            int sort = PreferencesHelper.getSort(MainActivity.this);
+            refreshData(sort);
+            return true;
+        }
 
         if (itemId == R.id.action_sort_popular) {
             PreferencesHelper.setSort(MainActivity.this, MoviesSortType.POPULAR);
@@ -164,5 +172,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         intent.putExtra("movie_id", movie.getId());
         startActivity(intent);
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float widthDivider = Utils.convertDpToPixel(140f);
+        int width = displayMetrics.widthPixels;
+        int nColumns = (int) (width / widthDivider);
+        if (nColumns < 2)
+            return 2;
+
+        return nColumns;
     }
 }
