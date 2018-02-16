@@ -1,4 +1,4 @@
-package com.example.boyan.popularmovies;
+package com.nanodegree.boyan.popularmovies;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.example.boyan.popularmovies;
+package com.nanodegree.boyan.popularmovies;
 
 import org.junit.Test;
 

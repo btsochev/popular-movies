@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">popularMovies</string>
+    <string name="app_name">PopularMovies</string>
+    <string name="api_key">344619d90d4a03d1cd0e3cdcada9a159</string>
+    <string name="error_message">An error has occured</string>
+    <string name="sort">Sort By</string>
+    <string name="most_popular">Most popular</string>
+    <string name="top_rated">Top rated</string>
 </resources>
