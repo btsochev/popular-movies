@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/movie_details_margin_bottom"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <ImageView
                     android:id="@+id/poster_iv"
@@ -27,12 +28,62 @@
                     android:layout_weight="1"
                     android:scaleType="centerCrop" />
 
-                <ImageView
-                    android:id="@+id/backdrop_iv"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="250dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop" />
+                    android:orientation="vertical"
+                    android:paddingTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
+                        android:layout_marginLeft="@dimen/movie_details_left_margin"
+                        android:text="@string/user_rating"
+                        android:textSize="@dimen/movie_details_label_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/user_rating_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                        android:layout_marginLeft="@dimen/movie_details_left_margin"
+                        android:layout_marginRight="@dimen/movie_details_right_margin"
+                        tools:text="9.7" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
+                        android:layout_marginLeft="@dimen/movie_details_left_margin"
+                        android:text="@string/release_date"
+                        android:textSize="@dimen/movie_details_label_text_size"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/release_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/movie_details_margin_bottom"
+                        android:layout_marginLeft="@dimen/movie_details_left_margin"
+                        android:layout_marginRight="@dimen/movie_details_right_margin"
+                        tools:text="2016-10-12" />
+
+                    <Button
+                        android:id="@+id/fav_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawablePadding="15dp"
+                        android:layout_marginLeft="@dimen/movie_details_left_margin"
+                        android:layout_marginRight="@dimen/movie_details_right_margin"
+                        android:paddingTop="16dp"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -43,6 +94,7 @@
                 android:layout_marginBottom="@dimen/movie_details_margin_bottom"
                 android:layout_marginLeft="@dimen/movie_details_left_margin"
                 android:textSize="@dimen/movie_details_title_text_size"
+                android:textStyle="bold"
                 tools:text="Title" />
 
             <TextView
@@ -51,7 +103,8 @@
                 android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
                 android:layout_marginLeft="@dimen/movie_details_left_margin"
                 android:text="@string/overview"
-                android:textSize="@dimen/movie_details_label_text_size" />
+                android:textSize="@dimen/movie_details_label_text_size"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/overview_tv"
@@ -62,43 +115,40 @@
                 android:layout_marginRight="@dimen/movie_details_right_margin"
                 tools:text="some overview text" />
 
+
             <TextView
+                android:id="@+id/reviews_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
                 android:layout_marginLeft="@dimen/movie_details_left_margin"
-                android:text="@string/user_rating"
-                android:textSize="@dimen/movie_details_label_text_size" />
+                android:text="@string/reviews"
+                android:textSize="@dimen/movie_details_label_text_size"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reviews_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/user_rating_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
-                android:layout_marginLeft="@dimen/movie_details_left_margin"
-                android:layout_marginRight="@dimen/movie_details_right_margin"
-                tools:text="9.7" />
-
-            <TextView
+                android:id="@+id/trailers_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/movie_details_label_margin_bottom"
                 android:layout_marginLeft="@dimen/movie_details_left_margin"
-                android:text="@string/release_date"
-                android:textSize="@dimen/movie_details_label_text_size" />
+                android:text="@string/trailers"
+                android:textSize="@dimen/movie_details_label_text_size"
+                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/release_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/movie_details_margin_bottom"
-                android:layout_marginLeft="@dimen/movie_details_left_margin"
-                android:layout_marginRight="@dimen/movie_details_right_margin"
-                tools:text="2016-10-12" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/trailers_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/tv_error_message_display"

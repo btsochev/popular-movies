@@ -8,4 +8,9 @@
     <dimen name="movie_details_label_text_size">18sp</dimen>
     <dimen name="movie_details_label_margin_bottom">4dp</dimen>
     <dimen name="movie_details_right_margin">16dp</dimen>
+    <dimen name="movie_details_review_margin">16dp</dimen>
+    <dimen name="movie_details_trailer_margin">16dp</dimen>
+    <dimen name="movie_details_trailer_margin_bottom">8dp</dimen>
+    <dimen name="trailer_icon_margin_right">8dp</dimen>
+    <dimen name="movie_details_trailer_margin_top">8dp</dimen>
 </resources>

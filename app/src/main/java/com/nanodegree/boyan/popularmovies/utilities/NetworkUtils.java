@@ -1,24 +1,13 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.nanodegree.boyan.popularmovies.utilities;
 
 import android.net.Uri;
 
 import com.nanodegree.boyan.popularmovies.data.MovieDetails;
 import com.nanodegree.boyan.popularmovies.data.MovieResponse;
+import com.nanodegree.boyan.popularmovies.data.Review;
+import com.nanodegree.boyan.popularmovies.data.ReviewsResponse;
+import com.nanodegree.boyan.popularmovies.data.Video;
+import com.nanodegree.boyan.popularmovies.data.VideosResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +16,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -38,25 +28,7 @@ public final class NetworkUtils {
 
     private static final String BASE_URL = "https://api.themoviedb.org/3";
 
-
-    //TODO: remove before commit and read it from strings
     private final static String AUTH_PARAM = "api_key";
-
-    public static URL buildUrl(String appendPath, String apiKey) {
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendEncodedPath(appendPath)
-                .appendQueryParameter(AUTH_PARAM, apiKey)
-                .build();
-
-        URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        return url;
-    }
 
     public static URL buildImageUrl(String imagePath) {
         Uri builtUri = Uri.parse(BASE_IMAGE_URL).buildUpon()
@@ -73,13 +45,16 @@ public final class NetworkUtils {
         return url;
     }
 
-    public static URL buildMovieDetailsUrl(int movieId, String apiKey) {
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendEncodedPath(MOVIE_DETAILS)
-                .appendEncodedPath(String.valueOf(movieId))
-                .appendQueryParameter(AUTH_PARAM, apiKey)
-                .build();
+    private static URL buildUrl(String apiKey, String... pathComponents) {
+        Uri.Builder uriBuilder = Uri.parse(BASE_URL).buildUpon();
 
+        for (String pathComponent : pathComponents) {
+            uriBuilder.appendEncodedPath(pathComponent);
+        }
+
+        uriBuilder = uriBuilder.appendQueryParameter(AUTH_PARAM, apiKey);
+
+        Uri builtUri = uriBuilder.build();
         URL url = null;
         try {
             url = new URL(builtUri.toString());
@@ -90,42 +65,53 @@ public final class NetworkUtils {
         return url;
     }
 
+
     public static MovieResponse getPopularMovies(String apiKey) throws Exception {
-        URL popularMoviesUrl = buildUrl(POPULAR_MOVIES_URL, apiKey);
+        URL popularMoviesUrl = buildUrl(apiKey, POPULAR_MOVIES_URL);
         String stringResponse = getResponseFromHttpUrl(popularMoviesUrl);
-        return parseMovieResponse(stringResponse);
+        return parseResponse(stringResponse, MovieResponse.class);
     }
 
     public static MovieResponse getTopRatedMovies(String apiKey) throws Exception {
-        URL topRatedMoviesUrl = buildUrl(TOP_RATED_MOVIES_URL, apiKey);
+        URL topRatedMoviesUrl = buildUrl(apiKey, TOP_RATED_MOVIES_URL);
         String stringResponse = getResponseFromHttpUrl(topRatedMoviesUrl);
-        return parseMovieResponse(stringResponse);
+        return parseResponse(stringResponse, MovieResponse.class);
     }
 
     public static MovieDetails getMovieDetails(int movieId, String apiKey) throws Exception {
-        URL movieDetails = buildMovieDetailsUrl(movieId, apiKey);
+        URL movieDetails = buildUrl(apiKey, MOVIE_DETAILS, String.valueOf(movieId));
         String stringResponse = getResponseFromHttpUrl(movieDetails);
-        return parseMovieDetails(stringResponse);
+        return parseResponse(stringResponse, MovieDetails.class);
     }
 
-    public static MovieResponse parseMovieResponse(String response) throws JSONException {
+    public static List<Review> getMovieReviews(int movieId, String apiKey) throws Exception {
+        URL movieDetails = buildUrl(apiKey, MOVIE_DETAILS, String.valueOf(movieId), "reviews");
+        String stringResponse = getResponseFromHttpUrl(movieDetails);
+        ReviewsResponse reviewsResponse = parseResponse(stringResponse, ReviewsResponse.class);
+        return reviewsResponse.getResults();
+    }
+
+    public static List<Video> getMovieTrailers(int movieId, String apiKey) throws Exception {
+        URL movieDetails = buildUrl(apiKey, MOVIE_DETAILS, String.valueOf(movieId), "videos");
+        String stringResponse = getResponseFromHttpUrl(movieDetails);
+        VideosResponse videosResponse = parseResponse(stringResponse, VideosResponse.class);
+        return videosResponse.getResults();
+    }
+
+    public static <T extends IJsonDeserialize> T parseResponse(String response, Class<T> classInstance) {
         if (StringHelpers.isStringNullOrEmpty(response))
             return null;
 
-        JSONObject jsonResponse = new JSONObject(response);
-        MovieResponse movieResponse = new MovieResponse();
-        movieResponse.getByJsonObject(jsonResponse);
-        return movieResponse;
-    }
+        T responseObject = null;
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+            responseObject = classInstance.newInstance();
+            responseObject.getByJsonObject(jsonResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    public static MovieDetails parseMovieDetails(String response) throws JSONException {
-        if (StringHelpers.isStringNullOrEmpty(response))
-            return null;
-
-        JSONObject jsonResponse = new JSONObject(response);
-        MovieDetails movieDetails = new MovieDetails();
-        movieDetails.getByJsonObject(jsonResponse);
-        return movieDetails;
+        return responseObject;
     }
 
     public static String getResponseFromHttpUrl(URL url) throws Exception {

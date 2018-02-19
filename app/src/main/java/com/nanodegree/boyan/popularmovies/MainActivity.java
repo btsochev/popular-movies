@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return true;
         }
 
+        if (itemId == R.id.action_favorites) {
+            Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

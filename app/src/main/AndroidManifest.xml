@@ -21,9 +21,15 @@
 
         <activity
             android:name=".DetailsActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"/>
 
-        </activity>
+        <activity android:name=".FavoritesActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <provider
+            android:name="com.nanodegree.boyan.popularmovies.data.PopularMoviesProvider"
+            android:authorities="com.nanodegree.boyan.popularmovies"
+            android:exported="false" />
     </application>
 
 </manifest>
