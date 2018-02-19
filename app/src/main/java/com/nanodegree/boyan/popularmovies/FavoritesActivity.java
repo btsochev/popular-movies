@@ -43,6 +43,8 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
         mRecyclerView.setAdapter(adapter);
 
         getSupportLoaderManager().initLoader(MOVIES_LOADER_ID, null, this);
+
+        setTitle(getResources().getString(R.string.favorites));
     }
 
     private void onMovieClicked(int movieId) {
