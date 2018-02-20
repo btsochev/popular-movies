@@ -17,13 +17,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nanodegree.boyan.popularmovies.data.MovieDetails;
 import com.nanodegree.boyan.popularmovies.data.MovieDetailsWrapper;
-import com.nanodegree.boyan.popularmovies.data.MoviesContract;
+import com.nanodegree.boyan.popularmovies.database.MoviesContract;
 import com.nanodegree.boyan.popularmovies.data.Review;
 import com.nanodegree.boyan.popularmovies.data.Video;
 import com.nanodegree.boyan.popularmovies.utilities.NetworkUtils;
@@ -181,7 +180,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             return;
         }
 
-        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?..." + video.getId()));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + video.getKey()));
         startActivity(webIntent);
     }
 
@@ -227,6 +226,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(MoviesContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
                 contentValues.put(MoviesContract.MovieEntry.COLUMN_MOVIE_TITLE, movieDetails.getTitle());
+                contentValues.put(MoviesContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH, movieDetails.getPosterPath());
                 Uri insertUri =  getContentResolver().insert(MoviesContract.MovieEntry.CONTENT_URI, contentValues);
                 if (insertUri != null){
                     isFavoriteFlag = true;

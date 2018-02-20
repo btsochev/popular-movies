@@ -27,7 +27,7 @@
             android:parentActivityName=".MainActivity"/>
 
         <provider
-            android:name="com.nanodegree.boyan.popularmovies.data.PopularMoviesProvider"
+            android:name="com.nanodegree.boyan.popularmovies.database.PopularMoviesProvider"
             android:authorities="com.nanodegree.boyan.popularmovies"
             android:exported="false" />
     </application>

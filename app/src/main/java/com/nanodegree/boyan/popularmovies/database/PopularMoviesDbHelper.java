@@ -1,10 +1,11 @@
-package com.nanodegree.boyan.popularmovies.data;
+package com.nanodegree.boyan.popularmovies.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.nanodegree.boyan.popularmovies.data.MoviesContract.MovieEntry;
+import com.nanodegree.boyan.popularmovies.database.MoviesContract;
+import com.nanodegree.boyan.popularmovies.database.MoviesContract.MovieEntry;
 
 
 public class PopularMoviesDbHelper extends SQLiteOpenHelper {
@@ -29,7 +30,8 @@ public class PopularMoviesDbHelper extends SQLiteOpenHelper {
 
                         MoviesContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
-                        MovieEntry.COLUMN_MOVIE_TITLE + " text );";
+                        MovieEntry.COLUMN_MOVIE_TITLE + " text, " +
+                        MovieEntry.COLUMN_MOVIE_POSTER_PATH + " text );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
     }

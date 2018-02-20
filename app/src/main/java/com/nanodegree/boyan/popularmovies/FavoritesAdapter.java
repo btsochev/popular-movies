@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nanodegree.boyan.popularmovies.utilities.NetworkUtils;
+import com.squareup.picasso.Picasso;
+
+import java.net.URL;
+
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
     private Cursor mCursor;
     private final Context mContext;
@@ -19,7 +24,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public FavoritesAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(mContext)
-                .inflate(R.layout.favorites_list_item, parent, false);
+                .inflate(R.layout.movie_grid_item, parent, false);
 
         view.setFocusable(true);
 
@@ -30,8 +35,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public void onBindViewHolder(FavoritesAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         String title = mCursor.getString(FavoritesActivity.INDEX_MOVIE_TITLE);
-        holder.mTitleTextView.setText(title);
-        holder.movieId = mCursor.getInt(FavoritesActivity.INDEX_MOVIE_ID);
+        String posterPath = mCursor.getString(FavoritesActivity.INDEX_MOVIE_POSTER_PATH);
+        int movieId = mCursor.getInt(FavoritesActivity.INDEX_MOVIE_ID);
+
+        holder.mMovieTitleTextView.setText(title);
+        holder.movieId = movieId;
+        URL url = NetworkUtils.buildImageUrl(posterPath);
+        Picasso.with(holder.mMovieImageView.getContext()).load(url.toString()).into(holder.mMovieImageView);
     }
 
     @Override
@@ -55,15 +65,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     }
 
     public class FavoritesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mIconImaveView;
-        public final TextView mTitleTextView;
+        public final ImageView mMovieImageView;
+        public final TextView mMovieTitleTextView;
 
         private int movieId;
 
         public FavoritesAdapterViewHolder(View view) {
             super(view);
-            mIconImaveView = view.findViewById(R.id.icon);
-            mTitleTextView = view.findViewById(R.id.title);
+            mMovieImageView = view.findViewById(R.id.image);
+            mMovieTitleTextView = view.findViewById(R.id.name);
             view.setOnClickListener(this);
         }
 

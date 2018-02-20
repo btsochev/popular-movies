@@ -9,16 +9,20 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 
-import com.nanodegree.boyan.popularmovies.data.MoviesContract;
+import com.nanodegree.boyan.popularmovies.database.MoviesContract;
+import com.nanodegree.boyan.popularmovies.utilities.Utils;
 
 public class FavoritesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int MOVIES_LOADER_ID = 10;
 
     public static final int INDEX_MOVIE_ID = 0;
     public static final int INDEX_MOVIE_TITLE = 1;
+    public static final int INDEX_MOVIE_POSTER_PATH = 2;
+    private static final String SAVED_INSTANCE_KEY = "saved_instance_position";
 
     private FavoritesAdapter adapter;
     private RecyclerView mRecyclerView;
@@ -26,7 +30,8 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
 
     private static final String[] MAIN_FAVORITES_PROJECTION = {
             MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
-            MoviesContract.MovieEntry.COLUMN_MOVIE_TITLE
+            MoviesContract.MovieEntry.COLUMN_MOVIE_TITLE,
+            MoviesContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH
     };
 
     @Override
@@ -35,8 +40,8 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
         setContentView(R.layout.activity_favorites);
 
         mRecyclerView = findViewById(R.id.favorites_rv);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, numberOfColumns());
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
         adapter = new FavoritesAdapter(this, this::onMovieClicked);
@@ -46,6 +51,7 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
 
         setTitle(getResources().getString(R.string.favorites));
     }
+
 
     private void onMovieClicked(int movieId) {
         Intent intent = new Intent(this, DetailsActivity.class);
@@ -69,12 +75,22 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
         adapter.swapCursor(data);
-        if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
-        mRecyclerView.smoothScrollToPosition(mPosition);
     }
 
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
         adapter.swapCursor(null);
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float widthDivider = Utils.convertDpToPixel(140f);
+        int width = displayMetrics.widthPixels;
+        int nColumns = (int) (width / widthDivider);
+        if (nColumns < 2)
+            return 2;
+
+        return nColumns;
     }
 }

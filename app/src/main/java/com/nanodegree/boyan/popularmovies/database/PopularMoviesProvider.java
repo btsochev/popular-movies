@@ -1,4 +1,4 @@
-package com.nanodegree.boyan.popularmovies.data;
+package com.nanodegree.boyan.popularmovies.database;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,7 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import static com.nanodegree.boyan.popularmovies.data.MoviesContract.MovieEntry.TABLE_NAME;
+import com.nanodegree.boyan.popularmovies.database.MoviesContract;
+import com.nanodegree.boyan.popularmovies.database.PopularMoviesDbHelper;
+
+import static com.nanodegree.boyan.popularmovies.database.MoviesContract.MovieEntry.TABLE_NAME;
 
 
 public class PopularMoviesProvider extends ContentProvider {
